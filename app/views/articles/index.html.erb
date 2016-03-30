@@ -1,0 +1,33 @@
+<h1>Article:</h1>
+  <ul>
+    <% @articles.each do |article| %>
+
+      <% if article.status == 1 %>
+        <li>
+          <%= article.text %>:
+          <%= article.price %>
+          <%= link_to 'Edit', edit_article_path(article), class: 'btn btn-sm btn-primary' %>
+          <%= link_to 'Delete', article_path(article), method: :delete, class: 'btn btn-sm btn-danger' %>
+          <%= link_to 'Buy', buy_article_path(article), class: 'btn btn-sm btn-danger' %>
+          <%= check_box :article, :commands %>
+        </li>
+      <% end %>
+    <% end %>
+  </ul>
+<h1>Basket:</h1>
+  <ul>
+    <% @articles.each do |article|
+      if article.status == 0 %>
+        <li>
+          <%= article.text %>:
+          <%= article.price %>
+          <%= link_to 'Cancel', redo_article_path(article), class: 'btn btn-sm btn-primary' %>
+        </li>
+      <% end %>
+    <% end %>
+  </ul>
+  <p>Total:
+    <%= @articles.where(status: 0).sum(:price) %>
+  </p>
+<%= link_to 'Add product', new_article_path %>
+<%= link_to 'Compare', articles_compare_path %>
